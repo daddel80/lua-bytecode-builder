@@ -55,18 +55,17 @@ Next
 outStr = outStr & "};" & vbCrLf & _
          "static const size_t luaBytecodeSize = sizeof(luaBytecode);" & vbCrLf & vbCrLf
 
-' --- Store Lua source code as a C++ string ---
+' --- Store Lua source code as a C++ raw string literal ---
 outStr = outStr & "// ---------- Original Lua Source Code (For Documentation/Fallback) ----------" & vbCrLf & _
-         "static const char luaSourceCode[] = {" & vbCrLf
+         "static const char* luaSourceCode = R""(" & vbCrLf
 
-' --- Append Lua source code as a valid C++ array ---
+' --- Append Lua source code as a valid C++ raw string ---
 sourceArray = Split(sourceStr, vbCrLf)
 For i = 0 To UBound(sourceArray)
-    line = sourceArray(i)
-    outStr = outStr & """ " & Replace(line, """", "\""") & "\n""" & vbCrLf
+    outStr = outStr & sourceArray(i) & vbCrLf
 Next
 
-outStr = outStr & "};" & vbCrLf & _
+outStr = outStr & ")"";" & vbCrLf & _
          "static const size_t luaSourceSize = sizeof(luaSourceCode);" & vbCrLf & vbCrLf & _
          "#endif // LUA_EMBEDDED_H" & vbCrLf
 

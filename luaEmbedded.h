@@ -362,8 +362,8 @@ static const unsigned char luaBytecode[] = {
 static const size_t luaBytecodeSize = sizeof(luaBytecode);
 
 // ---------- Original Lua Source Code (For Documentation/Fallback) ----------
-static const char luaSourceCode[] = {
-" ------------------------------------------------------------------
+static const char* luaSourceCode = R"(
+------------------------------------------------------------------
 -- 1) cond function
 ------------------------------------------------------------------
 function cond(cond, trueVal, falseVal)
@@ -641,13 +641,13 @@ function lvars(filePath)
 
   for name, value in pairs(dataTable) do
     if type(name) ~= 'string' then
-      error('lvars: Variable name must be a string. Found invalid key \\"' .. tostring(name) .. '\\"')
+      error('lvars: Variable name must be a string. Found invalid key \"' .. tostring(name) .. '\"')
     end
     if not string.match(name, '^[A-Za-z_][A-Za-z0-9_]*$') then
-      error('lvars: Invalid variable name \\"' .. tostring(name) .. '\\"')
+      error('lvars: Invalid variable name \"' .. tostring(name) .. '\"')
     end
     if value == nil then
-      error('lvars: Value missing for variable \\"' .. tostring(name) .. '\\"')
+      error('lvars: Value missing for variable \"' .. tostring(name) .. '\"')
     end
     if REGEX and type(value) == 'string' then
       value = value:gsub('\\\\', '\\\\\\\\')
@@ -667,8 +667,8 @@ function lvars(filePath)
   end
   return resultTable
 end
-\n"
-};
+
+)";
 static const size_t luaSourceSize = sizeof(luaSourceCode);
 
 #endif // LUA_EMBEDDED_H
